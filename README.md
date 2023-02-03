@@ -19,7 +19,7 @@ Further information are copied from HemRobotics readme!!!
 
 ## How to use the code?
 - Follow the video and the schematic diagram to make the connections. 
-- Open `recon-drone.ino` in Arduino IDE.
+- Open `R6ReconDrone.ino` in Arduino IDE.
 - Select correct camera model by commenting / un-commenting correct
   `#define` statement.
 - Add SSID and password of your WiFi access point.
