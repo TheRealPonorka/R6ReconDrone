@@ -19,6 +19,16 @@ esp_err_t ledon_handler(httpd_req_t *req);
 
 esp_err_t ledoff_handler(httpd_req_t *req);
 
+esp_err_t ledGREEN_handler(httpd_req_t *req);
+
+esp_err_t ledRED_handler(httpd_req_t *req);
+
+esp_err_t ledYELLOW_handler(httpd_req_t *req);
+
+byte RED;
+byte GREEN;
+byte BLUE;
+
 void WheelAct(int nLf, int nLb, int nRf, int nRb);
 
 #endif
