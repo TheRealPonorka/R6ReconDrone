@@ -685,6 +685,27 @@ void startCameraServer(){
         .user_ctx  = NULL
     };
 
+httpd_uri_t ledGREEN_uri = {
+        .uri        = "/ledGREEN",
+        .method     = HTTP_GET,
+        .handler    = ledGREEN_handler,
+        .user_ctx   = NULL
+    };
+
+httpd_uri_t ledRED_uri = {
+        .uri        = "/ledRED",
+        .method     = HTTP_GET,
+        .handler    = ledRED_handler,
+        .user_ctx   = NULL
+    };
+
+httpd_uri_t ledYELLOW_uri = {
+        .uri        = "/ledYELLOW",
+        .method     = HTTP_GET,
+        .handler    = ledYELLOW_handler,
+        .user_ctx   = NULL
+    };
+
 
     ra_filter_init(&ra_filter, 20);
     
@@ -704,7 +725,7 @@ void startCameraServer(){
     
     face_id_init(&id_list, FACE_ID_SAVE_NUMBER, ENROLL_CONFIRM_TIMES);
     
-    config.max_uri_handlers = 12;
+    config.max_uri_handlers = 20; //change this value if you want to add more handlers otherwise even after registration it will not allow REST API requests, currently 15 handlers are registered
 
     Serial.printf("Starting web server on port: '%d'\n", config.server_port);
     if (httpd_start(&camera_httpd, &config) == ESP_OK) {
@@ -721,6 +742,9 @@ void startCameraServer(){
         httpd_register_uri_handler(camera_httpd, &right_uri);
         httpd_register_uri_handler(camera_httpd, &ledon_uri);
         httpd_register_uri_handler(camera_httpd, &ledoff_uri);
+        httpd_register_uri_handler(camera_httpd, &ledGREEN_uri);
+        httpd_register_uri_handler(camera_httpd, &ledRED_uri);
+        httpd_register_uri_handler(camera_httpd, &ledYELLOW_uri);
     }
 
     config.server_port += 1;
