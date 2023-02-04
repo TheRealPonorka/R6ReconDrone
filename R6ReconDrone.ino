@@ -11,7 +11,9 @@
 #define BRIGHTNESS 64 // limiting brightness to 25%
 #define VOLTS 5 // LED strip voltage is 5V
 #define MAX_AMPS 300 //limiting LED strip max current to 300mA
-
+extern byte GREEN;
+extern byte RED;
+extern byte BLUE;
 CRGB leds[NUM_LEDS];
 
 //
@@ -47,7 +49,6 @@ extern int gpLf = 14; // Left Wheel Forward
 extern int gpRb = 15; // Right Wheel Back
 extern int gpRf = 13; // Right Wheel Forward
 extern int gpLed =  4; // Light
-extern int gpRGB =  12; // RGB Light
 extern String WiFiAddr ="";
 
 void startCameraServer();
@@ -145,6 +146,9 @@ void setup() {
   FastLED.setMaxPowerInVoltsAndMilliamps(VOLTS,MAX_AMPS);
   FastLED.setBrightness(BRIGHTNESS);
   FastLED.clear();
+  GREEN = 255;
+  RED = 0;
+  BLUE = 0;
   FastLED.show();
 }
 
@@ -160,18 +164,18 @@ void loop() {
  FastLED.show();
  delay(0);
 
- leds[2] = CRGB(0, 128, 0);
- leds[3] = CRGB(0, 128, 0);
+ leds[2] = CRGB(RED, GREEN, BLUE);
+ leds[3] = CRGB(RED, GREEN, BLUE);
  FastLED.show();
  delay(75);
 
- leds[1] = CRGB(0, 128, 0);
- leds[4] = CRGB(0, 128, 0);
+ leds[1] = CRGB(RED, GREEN, BLUE);
+ leds[4] = CRGB(RED, GREEN, BLUE);
  FastLED.show();
  delay(75);
 
- leds[0] = CRGB(0, 128, 0);
- leds[5] = CRGB(0, 128, 0);
+ leds[0] = CRGB(RED, GREEN, BLUE);
+ leds[5] = CRGB(RED, GREEN, BLUE);
  FastLED.show();
  delay(500);
 
