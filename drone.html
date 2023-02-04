@@ -5,7 +5,7 @@
   <script>var xhttp = new XMLHttpRequest();</script><script>function getsend(arg) { xhttp.open('GET', arg +'?' + new Date().getTime(), true); xhttp.send() } </script>
 
   <div class="boxbox">
-    <img src="http:192.168.6.6:81/stream">
+    <img src="http://192.168.6.6:81/stream">
 
     <button class="lg-button sm-button" onclick="window.open('/cp')" >Settings</button>
     <button class="col3" onmousedown="getsend('ledon')">LED ON</button>
@@ -16,9 +16,9 @@
     <button class="col3 row3" onmousedown="getsend('stop')" onmouseup="getsend('stop')"></button>
     <button class="col4 row3 noselect" onmousedown="getsend('right')" onmouseup="getsend('stop')" ontouchstart="getsend('right')" ontouchend="getsend('stop')">R</button>
     <button class="col3 row4 noselect" onmousedown="getsend('back')" onmouseup="getsend('stop')" ontouchstart="getsend('back')" ontouchend="getsend('stop')">D</button>
-	<button class="col2 row5 noselect" onmousedown="getsend('green')">GREEN</button>
-	<button class="col3 row5 noselect" onmousedown="getsend('red')">RED</button>
-	<button class="col4 row5 noselect" onmousedown="getsend('yellow')">YELLOW</button>
+	<button class="col2 row5" onmousedown="getsend('ledGREEN')">GREEN</button>
+	<button class="col3 row5" onmousedown="getsend('ledRED')">RED</button>
+	<button class="col4 row5" onmousedown="getsend('ledYELLOW')">YELLOW</button>
   </div>
 
   <style>
@@ -30,7 +30,7 @@
     }
     img {
 	transform: rotate(90deg);
-	grid-row: 1 / 4;
+	grid-row: 1 / 5;
     }
     .col1 {
 	grid-column: 1;
