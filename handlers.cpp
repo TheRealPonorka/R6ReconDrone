@@ -6,7 +6,9 @@ extern int gpLf;
 extern int gpRb;
 extern int gpRf;
 extern int gpLed;
-//extern String WiFiAddr;
+extern byte RED; //test by Ponorka
+extern byte GREEN; //test by Ponorka
+extern byte BLUE; //test by Ponorka
 
 void WheelAct(int nLf, int nLb, int nRf, int nRb);
 
@@ -31,6 +33,9 @@ esp_err_t index_handler(httpd_req_t *req){
     <button class="col3 row3" onmousedown="getsend('stop')" onmouseup="getsend('stop')"></button>
     <button class="col4 row3 noselect" onmousedown="getsend('right')" onmouseup="getsend('stop')" ontouchstart="getsend('right')" ontouchend="getsend('stop')">R</button>
     <button class="col3 row4 noselect" onmousedown="getsend('back')" onmouseup="getsend('stop')" ontouchstart="getsend('back')" ontouchend="getsend('stop')">D</button>
+	<button class="col2 row5" onmousedown="getsend('ledGREEN')">GREEN</button>
+	<button class="col3 row5" onmousedown="getsend('ledRED')">RED</button>
+	<button class="col4 row5" onmousedown="getsend('ledYELLOW')">YELLOW</button>
   </div>
 
   <style>
@@ -42,7 +47,7 @@ esp_err_t index_handler(httpd_req_t *req){
     }
     img {
 	transform: rotate(90deg);
-	grid-row: 1 / 4;
+	grid-row: 1 / 5;
     }
     .col1 {
 	grid-column: 1;
@@ -68,6 +73,9 @@ esp_err_t index_handler(httpd_req_t *req){
     .row4 {
 	grid-row: 4;
     }
+    .row5 {
+	grid-row: 5;
+    }
     /* Code block from https://stackoverflow.com/a/4407335/6202405 is
 	licensed under CC BY-SA 4.0 */
     .noselect {
@@ -82,6 +90,7 @@ esp_err_t index_handler(httpd_req_t *req){
     /* End of code block */
   </style>
 </html>
+
 )=="==";
 
     return httpd_resp_send(req, &page[0], strlen(&page[0]));
@@ -134,6 +143,33 @@ esp_err_t ledoff_handler(httpd_req_t *req){
     Serial.println("LED OFF");
     httpd_resp_set_type(req, "text/html");
     return httpd_resp_send(req, "OK", 2);
+}
+
+esp_err_t ledGREEN_handler(httpd_req_t *req){ 
+    RED = 0;
+    GREEN = 255;
+    BLUE = 0;
+    Serial.println("ledGREEN");               
+    httpd_resp_set_type(req, "text/html");  
+    return httpd_resp_send(req, "OK", 2);   
+}
+
+esp_err_t ledRED_handler(httpd_req_t *req){ 
+    RED = 255;
+    GREEN = 0;
+    BLUE = 0;
+    Serial.println("ledRED");               
+    httpd_resp_set_type(req, "text/html");  
+    return httpd_resp_send(req, "OK", 2);   
+}
+
+esp_err_t ledYELLOW_handler(httpd_req_t *req){ 
+    RED = 255;
+    GREEN = 255;
+    BLUE = 0;
+    Serial.println("ledYELLOW");               
+    httpd_resp_set_type(req, "text/html");  
+    return httpd_resp_send(req, "OK", 2);   
 }
 
 void WheelAct(int nLf, int nLb, int nRf, int nRb) {
