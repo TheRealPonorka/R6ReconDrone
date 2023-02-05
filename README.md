@@ -1,9 +1,8 @@
 # recon-drone
 
 This repository contains a custom fan made code for a [Tom Clancy's Rainbow Six®
-Siege](https://www.ubisoft.com/en-us/game/rainbow-six/siege) —
-Ubisoft® recon drone.
-This is repository is only fan made, and it was intended to be as realistic based on the same type of recon drone from the game.
+Siege — Ubisoft®](https://www.ubisoft.com/en-us/game/rainbow-six/siege) recon drone.
+This repository is completely and only fan made, but it was intended to be as realistic based on the same type of recon drone from the game as possible.
 It uses a ESP32-CAM module. It is controlled over WiFi as Access Point.
 
 This entire project is based on code from [HemRobotics](https://github.com/hemrobotics/recon-drone), shoutout to him!
