@@ -685,10 +685,10 @@ void startCameraServer(){
         .user_ctx  = NULL
     };
 
-httpd_uri_t ledGREEN_uri = {
-        .uri        = "/ledGREEN",
+httpd_uri_t ledDEFAULT_uri = {
+        .uri        = "/ledDEFAULT",
         .method     = HTTP_GET,
-        .handler    = ledGREEN_handler,
+        .handler    = ledDEFAULT_handler,
         .user_ctx   = NULL
     };
 
@@ -706,6 +706,33 @@ httpd_uri_t ledYELLOW_uri = {
         .user_ctx   = NULL
     };
 
+httpd_uri_t ledBLUE_uri = {
+        .uri        = "/ledBLUE",
+        .method     = HTTP_GET,
+        .handler    = ledBLUE_handler,
+        .user_ctx   = NULL
+    };
+
+httpd_uri_t ledPURPLE_uri = {
+        .uri        = "/ledPURPLE",
+        .method     = HTTP_GET,
+        .handler    = ledPURPLE_handler,
+        .user_ctx   = NULL
+    };
+
+httpd_uri_t ledORANGE_uri = {
+        .uri        = "/ledORANGE",
+        .method     = HTTP_GET,
+        .handler    = ledORANGE_handler,
+        .user_ctx   = NULL
+    };
+
+httpd_uri_t rgbOFF_uri = {
+        .uri        = "/rgbOFF",
+        .method     = HTTP_GET,
+        .handler    = rgbOFF_handler,
+        .user_ctx   = NULL
+    };
 
     ra_filter_init(&ra_filter, 20);
     
@@ -725,7 +752,7 @@ httpd_uri_t ledYELLOW_uri = {
     
     face_id_init(&id_list, FACE_ID_SAVE_NUMBER, ENROLL_CONFIRM_TIMES);
     
-    config.max_uri_handlers = 20; //change this value if you want to add more handlers otherwise even after registration it will not allow REST API requests, currently 15 handlers are registered
+    config.max_uri_handlers = 20; //change this value if you want to add more handlers otherwise even after registration it will not allow REST API requests, currently 19 handlers are registered
 
     Serial.printf("Starting web server on port: '%d'\n", config.server_port);
     if (httpd_start(&camera_httpd, &config) == ESP_OK) {
@@ -742,9 +769,13 @@ httpd_uri_t ledYELLOW_uri = {
         httpd_register_uri_handler(camera_httpd, &right_uri);
         httpd_register_uri_handler(camera_httpd, &ledon_uri);
         httpd_register_uri_handler(camera_httpd, &ledoff_uri);
-        httpd_register_uri_handler(camera_httpd, &ledGREEN_uri);
+        httpd_register_uri_handler(camera_httpd, &ledDEFAULT_uri);
         httpd_register_uri_handler(camera_httpd, &ledRED_uri);
         httpd_register_uri_handler(camera_httpd, &ledYELLOW_uri);
+        httpd_register_uri_handler(camera_httpd, &ledBLUE_uri);
+        httpd_register_uri_handler(camera_httpd, &ledPURPLE_uri);
+        httpd_register_uri_handler(camera_httpd, &ledORANGE_uri);
+        httpd_register_uri_handler(camera_httpd, &rgbOFF_uri);
     }
 
     config.server_port += 1;
