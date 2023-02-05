@@ -1,28 +1,28 @@
 # recon-drone
 
-This repository contains code for a drone inspired by the drone from
-[Tom Clancy's Rainbow Six®
+This repository contains a custom fan made code for a [Tom Clancy's Rainbow Six®
 Siege](https://www.ubisoft.com/en-us/game/rainbow-six/siege) —
-Ubisoft®. It uses a ESP32-CAM module. It can be controlled over WiFi.
+Ubisoft® recon drone.
+This is repository is only fan made, and it was intended to be as realistic based on the same type of recon drone from the game.
+It uses a ESP32-CAM module. It is controlled over WiFi as Access Point.
 
-This entire project is based on the very well documented project by HemRobotics, shoutout to him!
-This project is mostly a copy of his work, with slight changes based on my own preferences and later improvements.
+This entire project is based on code from [HemRobotics](https://github.com/hemrobotics/recon-drone), shoutout to him!
+This project is mostly a copy of his work, with custom changes based on my own preferences and later improvements.
 
 Please watch and share his work on youtube.
-Watch the [video on YouTube](https://youtu.be/NfWd9Kn30i0) for
+Watch the [HemRobotics recon drone video on YouTube](https://youtu.be/NfWd9Kn30i0) for
 complete build guide.
 
 ## Schematic diagram
 The schematic diagram will be posted later as it is still on breadboard and will need some tuning.
 
-Further information are copied from HemRobotics readme!!!
 
 ## How to use the code?
-- Follow the video and the schematic diagram to make the connections. 
+- Follow [HemRobotics recon drone video on YouTube](https://youtu.be/NfWd9Kn30i0) and the schematic diagram to make the connections. 
 - Open `R6ReconDrone.ino` in Arduino IDE.
 - Select correct camera model by commenting / un-commenting correct
   `#define` statement.
-- Add SSID and password of your WiFi access point.
+- Add SSID and password of your WiFi access point or leave it as it is. Current default settings: 'SSID:R6_drone_01'; 'Password:Rainbow6'; 'IP:192.168.6.6'. DON'T use the same SSID as your home router.
 - You can either flash your ESP using [Arduino
   UNO](https://youtu.be/q-KIpFIbRMk) or [FTDI USB to TTL serial
   converter](https://youtu.be/tzmcXZ-irIc).
