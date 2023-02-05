@@ -96,12 +96,12 @@ void setup() {
   // if PSRAM IC present, init with UXGA resolution and higher JPEG quality
   //                      for larger pre-allocated frame buffer.
   if(psramFound()){
-    config.frame_size = FRAMESIZE_UXGA;
+    config.frame_size = FRAMESIZE_HD;
     config.jpeg_quality = 10;
     config.fb_count = 2;
   } else {
-    config.frame_size = FRAMESIZE_SVGA;
-    config.jpeg_quality = 12;
+    config.frame_size = FRAMESIZE_HD;
+    config.jpeg_quality = 15;
     config.fb_count = 1;
   }
 
@@ -125,7 +125,7 @@ void setup() {
     s->set_saturation(s, -2); // lower the saturation
   }
   // drop down frame size for higher initial frame rate
-  s->set_framesize(s, FRAMESIZE_QVGA);
+  s->set_framesize(s, FRAMESIZE_VGA);
 
 #if defined(CAMERA_MODEL_M5STACK_WIDE) || defined(CAMERA_MODEL_M5STACK_ESP32CAM)
   s->set_vflip(s, 1);
@@ -167,30 +167,30 @@ void loop() {
  leds[2] = CRGB(RED, GREEN, BLUE);
  leds[3] = CRGB(RED, GREEN, BLUE);
  FastLED.show();
- delay(75);
+ delay(30);
 
  leds[1] = CRGB(RED, GREEN, BLUE);
  leds[4] = CRGB(RED, GREEN, BLUE);
  FastLED.show();
- delay(75);
+ delay(30);
 
  leds[0] = CRGB(RED, GREEN, BLUE);
  leds[5] = CRGB(RED, GREEN, BLUE);
  FastLED.show();
- delay(500);
+ delay(300);
 
  leds[0] = CRGB::Black;
  leds[5] = CRGB::Black;
  FastLED.show();
- delay(75);
+ delay(30);
 
  leds[1] = CRGB::Black;
  leds[4] = CRGB::Black;
  FastLED.show();
- delay(75);
+ delay(30);
 
  leds[2] = CRGB::Black;
  leds[3] = CRGB::Black;
  FastLED.show();
- delay(75);
+ delay(30);
 }
