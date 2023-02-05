@@ -21,7 +21,7 @@ The schematic diagram will be posted later as it is still on breadboard and will
 - Open `R6ReconDrone.ino` in Arduino IDE.
 - Select correct camera model by commenting / un-commenting correct
   `#define` statement.
-- Add SSID and password of your WiFi access point or leave it as it is. Current default settings: `SSID:R6_drone_01`; `Password:Rainbow6`; `IP:192.168.6.6`. DON'T use the same SSID as your home router.
+- Add SSID and password of your WiFi access point or leave it as it is. Current default settings: `SSID:R6_drone_01` ; `Password:Rainbow6` ; `IP:192.168.6.6`. DON'T use the same SSID as your home router.
 - You can either flash your ESP using [Arduino
   UNO](https://youtu.be/q-KIpFIbRMk) or [FTDI USB to TTL serial
   converter](https://youtu.be/tzmcXZ-irIc).
