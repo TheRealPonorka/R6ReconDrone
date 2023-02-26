@@ -1,16 +1,16 @@
 #include "esp_http_server.h"
 #include "Arduino.h"
 
-extern int gpLb;
-extern int gpLf;
-extern int gpRb;
-extern int gpRf;
+extern float gpLb;
+extern float gpLf;
+extern float gpRb;
+extern float gpRf;
 extern int gpLed;
 extern byte RED;
 extern byte GREEN;
 extern byte BLUE;
 
-void WheelAct(int nLf, int nLb, int nRf, int nRb);
+void WheelAct(float nLf, float nLb, float nRf, float nRb);
 
 esp_err_t index_handler(httpd_req_t *req){
     httpd_resp_set_type(req, "text/html");
@@ -404,7 +404,7 @@ esp_err_t rgbOFF_handler(httpd_req_t *req){
     return httpd_resp_send(req, "OK", 2);   
 }
 
-void WheelAct(int nLf, int nLb, int nRf, int nRb) {
+void WheelAct(float nLf, float nLb, float nRf, float nRb) {
     digitalWrite(gpLf, nLf);
     digitalWrite(gpLb, nLb);
     digitalWrite(gpRf, nRf);
