@@ -10,7 +10,6 @@ extern byte RED;
 extern byte GREEN;
 extern byte BLUE;
 unsigned long keyPressedTime;
-bool getTime = true;
 
 #define PWM1_Ch    0
 #define PWM2_Ch    1
@@ -18,7 +17,13 @@ bool getTime = true;
 #define PWM4_Ch    3
 #define PWM_Res   4
 #define PWM_Freq  1000
+
+bool isMoving = false;
+
 int PWM1_DutyCycle = 0;
+int PWM2_DutyCycle = 0;
+int PWM3_DutyCycle = 0;
+int PWM4_DutyCycle = 0;
 
 void WheelAct(int nLf, int nLb, int nRf, int nRb);
 void WheelActWithAcceleration();
@@ -314,19 +319,18 @@ esp_err_t index_handler(httpd_req_t *req){
 }
 
 esp_err_t go_handler(httpd_req_t *req){
-    // When pressed we for the first time we will get current time
-	// While pressed we will create a delta time between the old currenttime and real current time
-	// Acceleration will be multipliead by delta until it reaches maximum
-	// The stop method then resets getTime bool therefore we get the time only at the first press.
+	// Acceleration is integer interation from 0 to 255 every X miliseconds defined in delay()
+	Serial.println("GO");
+	isMoving = true;
 
-	if(getTime)
+	while(isMoving && PWM1_DutyCycle < 255)
 	{
-		keyPressedTime = millis();
-		getTime = false;
+	// go forward by setting left and right wheel forward from 0 - 255 while keeping L and R wheel back at 0
+    WheelActWithAcceleration(PWM1_DutyCycle++, 0, PWM3_DutyCycle++, 0);
+	Serial.println("Moving!");
+	delay(10);
 	}
-    WheelActWithAcceleration()
-    Serial.println("Go");
-	Serial.println(keyPressedTime);
+
     httpd_resp_set_type(req, "text/html");
     return httpd_resp_send(req, "OK", 2);
 }
@@ -353,8 +357,10 @@ esp_err_t right_handler(httpd_req_t *req){
 }
 
 esp_err_t stop_handler(httpd_req_t *req){
-    WheelAct(LOW, LOW, LOW, LOW);
-	getTime = true;
+	// Set is moving to false so we can stop outgoing acceleration if there are unfinished loops
+	isMoving = false;
+	// Set voltage to 0 at all wheel pins
+	WheelActWithAcceleration(0, 0, 0, 0);
     Serial.println("Stop");
     httpd_resp_set_type(req, "text/html");
     return httpd_resp_send(req, "OK", 2);
@@ -444,18 +450,11 @@ void WheelAct(int nLf, int nLb, int nRf, int nRb) {
     digitalWrite(gpRb, nRb);
 }
 
-void WheelAct(int nLf, int nLb, int nRf, int nRb) {
-    digitalWrite(gpLf, nLf);
-    digitalWrite(gpLb, nLb);
-    digitalWrite(gpRf, nRf);
-    digitalWrite(gpRb, nRb);
-}
-
-void WheelActWithAcceleration() {
+void WheelActWithAcceleration(int speed1, int speed2, int speed3, int speed4) {
 	// Left wheel forward
-    ledcWrite(PWM1_Ch, 255);
-    ledcWrite(PWM2_Ch, 0);
+    ledcWrite(PWM1_Ch, speed1);
+    ledcWrite(PWM2_Ch, speed2);
 	// Right wheel forward
-    ledcWrite(PWM3_Ch, 255);
-    ledcWrite(PWM4_Ch, 0);
+    ledcWrite(PWM3_Ch, speed3);
+    ledcWrite(PWM4_Ch, speed4);
 }
