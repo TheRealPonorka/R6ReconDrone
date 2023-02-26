@@ -26,7 +26,7 @@ int PWM3_DutyCycle = 0;
 int PWM4_DutyCycle = 0;
 
 void WheelAct(int nLf, int nLb, int nRf, int nRb);
-void WheelActWithAcceleration();
+void WheelActWithAcceleration(int speed1, int speed2, int speed3, int speed4);
 
 esp_err_t index_handler(httpd_req_t *req){
     httpd_resp_set_type(req, "text/html");
@@ -327,7 +327,7 @@ esp_err_t go_handler(httpd_req_t *req){
 	{
 	// go forward by setting left and right wheel forward from 0 - 255 while keeping L and R wheel back at 0
     WheelActWithAcceleration(PWM1_DutyCycle++, 0, PWM3_DutyCycle++, 0);
-	Serial.println("Moving! at speeds {0}, {1}", PWM1_DutyCycle, PWM3_DutyCycle);
+	Serial.println("Moving! at speeds");
 	delay(50);
 	}
 
@@ -357,16 +357,20 @@ esp_err_t right_handler(httpd_req_t *req){
 }
 
 esp_err_t stop_handler(httpd_req_t *req){
+    Serial.println("Stop");
+
+	// Set is moving to false so we can stop outgoing acceleration if there are unfinished loops
+	isMoving = false;
+
 	// Reset speed back to 0
 	PWM1_DutyCycle = 0;
 	PWM2_DutyCycle = 0;
 	PWM3_DutyCycle = 0;
 	PWM4_DutyCycle = 0;
-	// Set is moving to false so we can stop outgoing acceleration if there are unfinished loops
-	isMoving = false;
+
 	// Set voltage to 0 at all wheel pins
 	WheelActWithAcceleration(0, 0, 0, 0);
-    Serial.println("Stop");
+
     httpd_resp_set_type(req, "text/html");
     return httpd_resp_send(req, "OK", 2);
 }
