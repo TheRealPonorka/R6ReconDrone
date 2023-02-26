@@ -1,16 +1,20 @@
 #include "esp_http_server.h"
 #include "Arduino.h"
 
-extern float gpLb;
-extern float gpLf;
-extern float gpRb;
-extern float gpRf;
+extern int gpLb;
+extern int gpLf;
+extern int gpRb;
+extern int gpRf;
 extern int gpLed;
 extern byte RED;
 extern byte GREEN;
 extern byte BLUE;
+unsigned long currenttime
+bool getTime;
 
-void WheelAct(float nLf, float nLb, float nRf, float nRb);
+
+
+void WheelAct(int nLf, int nLb, int nRf, int nRb);
 
 esp_err_t index_handler(httpd_req_t *req){
     httpd_resp_set_type(req, "text/html");
@@ -293,8 +297,19 @@ esp_err_t index_handler(httpd_req_t *req){
 }
 
 esp_err_t go_handler(httpd_req_t *req){
+    // When pressed we for the first time we will get current time
+	// While pressed we will create a delta time between the old currenttime and real current time
+	// Acceleration will be multipliead by delta until it reaches maximum
+	// The stop method then resets getTime bool therefore we get the time only at the first press.
+
+	if(getTime)
+	{
+		currenttime = millis();
+		getTime = false;
+	}
     WheelAct(HIGH, LOW, HIGH, LOW);
     Serial.println("Go");
+	Serial.println(currenttime);
     httpd_resp_set_type(req, "text/html");
     return httpd_resp_send(req, "OK", 2);
 }
@@ -322,6 +337,7 @@ esp_err_t right_handler(httpd_req_t *req){
 
 esp_err_t stop_handler(httpd_req_t *req){
     WheelAct(LOW, LOW, LOW, LOW);
+	getTime = true;
     Serial.println("Stop");
     httpd_resp_set_type(req, "text/html");
     return httpd_resp_send(req, "OK", 2);
@@ -404,7 +420,7 @@ esp_err_t rgbOFF_handler(httpd_req_t *req){
     return httpd_resp_send(req, "OK", 2);   
 }
 
-void WheelAct(float nLf, float nLb, float nRf, float nRb) {
+void WheelAct(int nLf, int nLb, int nRf, int nRb) {
     digitalWrite(gpLf, nLf);
     digitalWrite(gpLb, nLb);
     digitalWrite(gpRf, nRf);
