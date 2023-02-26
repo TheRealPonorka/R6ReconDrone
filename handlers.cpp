@@ -1,16 +1,16 @@
 #include "esp_http_server.h"
 #include "Arduino.h"
 
-extern float gpLb;
-extern float gpLf;
-extern float gpRb;
-extern float gpRf;
+extern int gpLb;
+extern int gpLf;
+extern int gpRb;
+extern int gpRf;
 extern int gpLed;
 extern byte RED;
 extern byte GREEN;
 extern byte BLUE;
 
-void WheelAct(float nLf, float nLb, float nRf, float nRb);
+void WheelAct(int nLf, int nLb, int nRf, int nRb);
 
 esp_err_t index_handler(httpd_req_t *req){
     httpd_resp_set_type(req, "text/html");
@@ -293,8 +293,8 @@ esp_err_t index_handler(httpd_req_t *req){
 }
 
 esp_err_t go_handler(httpd_req_t *req){
-    WheelAct(HIGH, LOW, HIGH, LOW);
-    Serial.println("Go");
+    WheelAct(1.0f, 0f, 1.0f, 0f);
+    Serial.println("Go with float");
     httpd_resp_set_type(req, "text/html");
     return httpd_resp_send(req, "OK", 2);
 }
@@ -404,7 +404,8 @@ esp_err_t rgbOFF_handler(httpd_req_t *req){
     return httpd_resp_send(req, "OK", 2);   
 }
 
-void WheelAct(float nLf, float nLb, float nRf, float nRb) {
+void WheelAct(int nLf, int nLb, int nRf, int nRb) {
+
     digitalWrite(gpLf, nLf);
     digitalWrite(gpLb, nLb);
     digitalWrite(gpRf, nRf);
