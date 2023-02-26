@@ -9,12 +9,19 @@ extern int gpLed;
 extern byte RED;
 extern byte GREEN;
 extern byte BLUE;
-unsigned long currenttime
-bool getTime;
+unsigned long keyPressedTime;
+bool getTime = true;
 
-
+#define PWM1_Ch    0
+#define PWM2_Ch    1
+#define PWM3_Ch	   2
+#define PWM4_Ch    3
+#define PWM_Res   4
+#define PWM_Freq  1000
+int PWM1_DutyCycle = 0;
 
 void WheelAct(int nLf, int nLb, int nRf, int nRb);
+void WheelActWithAcceleration();
 
 esp_err_t index_handler(httpd_req_t *req){
     httpd_resp_set_type(req, "text/html");
@@ -293,6 +300,16 @@ esp_err_t index_handler(httpd_req_t *req){
 </html>
 )=="==";
 
+	ledcAttachPin(gpLb, PWM1_Ch);
+	ledcAttachPin(gpLf, PWM2_Ch);
+	ledcAttachPin(gpRb, PWM3_Ch);
+	ledcAttachPin(gpRf, PWM4_Ch);
+
+	ledcSetup(PWM1_Ch, PWM_Freq, PWM_Res);
+	ledcSetup(PWM2_Ch, PWM_Freq, PWM_Res);
+	ledcSetup(PWM3_Ch, PWM_Freq, PWM_Res);
+	ledcSetup(PWM4_Ch, PWM_Freq, PWM_Res);
+
     return httpd_resp_send(req, &page[0], strlen(&page[0]));
 }
 
@@ -304,12 +321,12 @@ esp_err_t go_handler(httpd_req_t *req){
 
 	if(getTime)
 	{
-		currenttime = millis();
+		keyPressedTime = millis();
 		getTime = false;
 	}
-    WheelAct(HIGH, LOW, HIGH, LOW);
+    WheelActWithAcceleration()
     Serial.println("Go");
-	Serial.println(currenttime);
+	Serial.println(keyPressedTime);
     httpd_resp_set_type(req, "text/html");
     return httpd_resp_send(req, "OK", 2);
 }
@@ -425,4 +442,20 @@ void WheelAct(int nLf, int nLb, int nRf, int nRb) {
     digitalWrite(gpLb, nLb);
     digitalWrite(gpRf, nRf);
     digitalWrite(gpRb, nRb);
+}
+
+void WheelAct(int nLf, int nLb, int nRf, int nRb) {
+    digitalWrite(gpLf, nLf);
+    digitalWrite(gpLb, nLb);
+    digitalWrite(gpRf, nRf);
+    digitalWrite(gpRb, nRb);
+}
+
+void WheelActWithAcceleration() {
+	// Left wheel forward
+    ledcWrite(PWM1_Ch, 255);
+    ledcWrite(PWM2_Ch, 0);
+	// Right wheel forward
+    ledcWrite(PWM3_Ch, 255);
+    ledcWrite(PWM4_Ch, 0);
 }
